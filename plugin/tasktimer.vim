@@ -27,4 +27,11 @@ function! s:init_var(var, value)
 endfunction
 
 call s:init_var("g:tasktimer_file", expand('$HOME') . '/.vim_tasktimer')
+call s:init_var("g:tasktimer_timeformat", "%Y-%m-%d %H:%M")
+call s:init_var("g:tasktimer_dateformat", "%Y-%m-%d")
 
+" :TasktimerStart <task>
+" :TasktimerStop
+" :TasktimerStatus
+" :TasktimerList [<task>]
+" :TasktimerListDate <date_from> [<date_to>]
