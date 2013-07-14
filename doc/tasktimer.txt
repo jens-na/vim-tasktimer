@@ -1,0 +1,12 @@
+*tasktimer.txt*     task timer for Vim
+
+Author:       Jens Nazarenus <jens@0x6a.de>
+License:      Vim license, see license
+Homepage:     http://github.com/jens-na/vim-tasktimer
+Version:      1.0
+
+===============================================================================
+
+|help-writing|
+
+vim:tw=78:ts=8:ft=help:norl:
