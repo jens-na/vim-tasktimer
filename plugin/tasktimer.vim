@@ -9,6 +9,7 @@
 
 scriptencoding utf-8
 
+" Initialization
 if exists("loaded_tasktimer")
     finish
 endif
@@ -17,6 +18,7 @@ if v:version < 700
     finish
 endif
 let loaded_tasktimer = 1
+
 
 function! s:init_var(var, value)
   if !exists(a:var)

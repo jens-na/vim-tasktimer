@@ -9,10 +9,12 @@
 
 scriptencoding utf-8
 
+" Initialization
 if exists("g:loaded_tasktimer_autoload")
     finish
 endif
 let g:loaded_tasktimer_autoload = 1
+
 
 " Function: Starts the timer for a specified task
 function! tasktimer#start(task)
@@ -172,7 +174,7 @@ endfunction
 
 " Function: Sums up all the times for a specific task and returns the
 " value.
-" Returns: 0, no times, > 0 times found
+" Returns: 0, no times, > 0 times found. Returns seconds
 function! tasktimer#sum(task)
   let content = tasktimer#readfile()
   let sum = 0
@@ -186,4 +188,10 @@ function! tasktimer#sum(task)
   endfor
 
   return sum
+endfunction
+
+" Functions: Formats seconds to a humand readable string.
+" Example: 1h 24m 5s
+function! tasktimer#format(seconds, type)
+  return string(seconds)
 endfunction
