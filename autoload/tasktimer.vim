@@ -220,3 +220,14 @@ function tasktimer#parsedecimal(seconds)
     return time
   endif
 endfunction
+
+function tasktimer#preparebuffer() 
+  let cmd = g:tasktimer_windowpos
+  let cmd = cmd . ' ' . g:tasktimer_windowheight
+  let cmd = cmd . ' new'
+  exe cmd
+endfunction
+
+function tasktimer#completebuffer()
+  set nomodifiable
+endfunction
