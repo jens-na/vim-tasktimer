@@ -190,6 +190,13 @@ function! tasktimer#sum(task)
   return sum
 endfunction
 
+" Function: The format function, which is responsibe of formatting
+" seconds to a humand readable time like HH:mm.
+function tasktimer#format(seconds)
+  let time = tasktimer#parse(a:seconds)
+  return printf('%.0f:%.0f', time.hours, time.minutes) 
+endfunction
+
 " Function: This function returns an dictionary which contains 'hours,
 " minutes, seconds' for the timed seconds.
 function tasktimer#parse(seconds)
