@@ -81,6 +81,29 @@ function! tasktimer#status()
   endif
 endfunction
 
+function! tasktimer#listtasks(...)
+  let content = tasktimer#readfile()
+  let firstline = 1
+  call tasktimer#preparebuffer()
+
+  if !empty(a:0 > 0)
+    echo ('loop tasks')
+  else
+    for entry in content
+      if !empty(entry.task) && !empty(entry.start)
+        let line = entry.task . '|' . tasktimer#format(entry.start)
+
+        if firstline
+          call append(line('^'), line)
+        else
+          call append(line('.'), line)
+        endif
+      endif
+    endfor
+  endif
+  call tasktimer#completebuffer()
+endfunction
+
 " Function: Creates the tasktimer file if it doesn't exist already.
 " Returns: 0 if everything is OK, 1 otherwise
 function! tasktimer#preparefile()
@@ -221,13 +244,26 @@ function tasktimer#parsedecimal(seconds)
   endif
 endfunction
 
+" Function: Prepares the buffer where all the listing information should
+" be listed.
 function tasktimer#preparebuffer() 
-  let cmd = g:tasktimer_windowpos
-  let cmd = cmd . ' ' . g:tasktimer_windowheight
-  let cmd = cmd . ' new'
-  exe cmd
+  if g:tasktimer_winnr == 0 
+    let cmd = g:tasktimer_windowpos
+    let cmd = cmd . ' ' . g:tasktimer_windowheight
+    let cmd = cmd . ' new'
+    exe cmd
+    let g:tasktimer_winnr = winnr()
+  else
+    exe g:tasktimer_winnr . "wincmd w"
+    set modifiable
+    silent %delete
+  endif
 endfunction
 
+" Function: Completes The buffer. Specifically this function sets to buffer to
+" 'nomodifiable.
 function tasktimer#completebuffer()
-  set nomodifiable
+  if g:tasktimer_winnr == 0 
+    set nomodifiable
+  endif
 endfunction

@@ -31,6 +31,9 @@ endfunction
 call s:init_var("g:tasktimer_file", expand('$HOME') . '/.vim_tasktimer')
 call s:init_var("g:tasktimer_timeformat", "%Y-%m-%d %H:%M")
 call s:init_var("g:tasktimer_dateformat", "%Y-%m-%d")
+call s:init_var("g:tasktimer_windowpos", "belowright")
+call s:init_var("g:tasktimer_windowheight", "10")
+call s:init_var("g:tasktimer_winnr", 0)
 
 " :TasktimerStart <task>
 " :TasktimerStop
