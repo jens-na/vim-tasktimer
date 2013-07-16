@@ -190,8 +190,26 @@ function! tasktimer#sum(task)
   return sum
 endfunction
 
-" Functions: Formats seconds to a humand readable string.
-" Example: 1h 24m 5s
-function! tasktimer#format(seconds, type)
-  return string(seconds)
+" Function: This function returns an dictionary which contains 'hours,
+" minutes, seconds' for the timed seconds.
+function tasktimer#parse(seconds)
+    let time = {}
+    let time.hours = floor(a:seconds / 3600)
+    let time.minutes = floor((a:seconds / 60) % 60)
+    let time.seconds = a:seconds % 60
+    return time
+endfunction
+
+" Function: Returns a decimal representation of the time. Also returns
+" a dictionary with hours, minuates and seconds.
+function tasktimer#parsedecimal(seconds)
+  let time = tasktimer#parse(a:seconds)
+
+  if !empty(time)
+    let dec_min = (time.minutes * 100) / 60 
+    let dec_sec = (time.seconds * 100) / 60
+    let time.minutes = floor(dec_min)
+    let time.seconds = floor(dec_sec)
+    return time
+  endif
 endfunction
