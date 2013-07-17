@@ -282,12 +282,12 @@ endfunction
 " Function: Prepares the buffer where all the listing information should
 " be listed.
 function tasktimer#preparebuffer() 
-  if !exists('t:tasktimer_winnr')
+  if tasktimer#isopen() == -1
     let cmd = g:tasktimer_windowpos
     let cmd = cmd . ' ' . g:tasktimer_windowheight
     let cmd = cmd . ' new'
     exe cmd
-    let t:tasktimer_winnr = winnr()
+    let t:tasktimer_winnr = bufnr('$')
   else
     exe t:tasktimer_winnr . "wincmd w"
     set modifiable
