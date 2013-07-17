@@ -83,25 +83,45 @@ endfunction
 
 function! tasktimer#listtasks(...)
   let content = tasktimer#readfile()
-  let firstline = 1
-  call tasktimer#preparebuffer()
 
+  call tasktimer#preparebuffer()
   if !empty(a:0 > 0)
-    echo ('loop tasks')
+    for entry in content
+      if !empty(entry.task) && !empty(entry.start)
+        let found = 0
+
+        " loop through params
+        for task in a:000
+          if task == entry.task
+            call tasktimer#appendbuffer(entry)
+            let firstline = 0
+          endif
+        endfor
+      endif
+    endfor
   else
     for entry in content
       if !empty(entry.task) && !empty(entry.start)
-        let line = entry.task . '|' . tasktimer#format(entry.start)
-
-        if firstline
-          call append(line('^'), line)
-        else
-          call append(line('.'), line)
-        endif
+        call tasktimer#appendbuffer(entry)
+        let firstline = 0
       endif
     endfor
   endif
+  " remove the empty first line and go to the real first line
+  silent 1delete
+  1
   call tasktimer#completebuffer()
+endfunction
+
+" Function: Appends an entry to the current buffer
+function! tasktimer#appendbuffer(entry)
+  let calc = tasktimer#calc(a:entry)
+
+  let line = a:entry.task . '|' . strftime(g:tasktimer_timeformat, a:entry.start)
+  let line = line . ' - ' . strftime(g:tasktimer_timeformat, a:entry.end)
+  let line = line . '|' . tasktimer#format(calc)
+
+  call append(line('.'), line)
 endfunction
 
 " Function: Creates the tasktimer file if it doesn't exist already.
@@ -195,29 +215,35 @@ function! tasktimer#findpending(content)
   return 0
 endfunction
 
-" Function: Sums up all the times for a specific task and returns the
-" value.
+" Function: Sums up all the times for a task and returns the value.
 " Returns: 0, no times, > 0 times found. Returns seconds
 function! tasktimer#sum(task)
   let content = tasktimer#readfile()
   let sum = 0
 
   for entry in content
-    if !empty(entry.task) && !empty(entry.start) && !empty(entry.end)
-      if entry.task == a:task
-        let sum = sum + (entry.end - entry.start)        
-      endif
+    if entry.task == a:task
+      let sum = sum + tasktimer#calc(entry) 
     endif
   endfor
 
   return sum
 endfunction
 
+" Function: Calcs the time for one specific timed task.
+" Returns: 0, no times, > 0 times found. Returns seconds
+function! tasktimer#calc(entry)
+  if !empty(a:entry.task) && !empty(a:entry.start) && !empty(a:entry.end)
+    return (a:entry.end - a:entry.start)
+  endif
+  return 0
+endfunction
+
 " Function: The format function, which is responsibe of formatting
 " seconds to a humand readable time like HH:mm.
 function tasktimer#format(seconds)
   let time = tasktimer#parse(a:seconds)
-  return printf('%.0f:%.0f', time.hours, time.minutes) 
+  return printf('%.0fh %.0fm', time.hours, time.minutes) 
 endfunction
 
 " Function: This function returns an dictionary which contains 'hours,
@@ -230,8 +256,8 @@ function tasktimer#parse(seconds)
     return time
 endfunction
 
-" Function: Returns a decimal representation of the time. Also returns
-" a dictionary with hours, minuates and seconds.
+" Function: Returns a decimal representation of the time. Returns
+" a dictionary with hours, minutes and seconds.
 function tasktimer#parsedecimal(seconds)
   let time = tasktimer#parse(a:seconds)
 
@@ -247,14 +273,14 @@ endfunction
 " Function: Prepares the buffer where all the listing information should
 " be listed.
 function tasktimer#preparebuffer() 
-  if g:tasktimer_winnr == 0 
+  if !exists('t:tasktimer_winnr')
     let cmd = g:tasktimer_windowpos
     let cmd = cmd . ' ' . g:tasktimer_windowheight
     let cmd = cmd . ' new'
     exe cmd
-    let g:tasktimer_winnr = winnr()
+    let t:tasktimer_winnr = winnr()
   else
-    exe g:tasktimer_winnr . "wincmd w"
+    exe t:tasktimer_winnr . "wincmd w"
     set modifiable
     silent %delete
   endif
@@ -263,7 +289,16 @@ endfunction
 " Function: Completes The buffer. Specifically this function sets to buffer to
 " 'nomodifiable.
 function tasktimer#completebuffer()
-  if g:tasktimer_winnr == 0 
+  if exists('t:tasktimer_winnr') == 0 
     set nomodifiable
+  endif
+endfunction
+
+" Function: Checks if the buffer of tasktimer is associated with a window
+function tasktimer#isopen()
+  if exists('t:tasktimer_winnr')
+    return bufwinnr(t:tasktimer_winnr)
+  else
+    return -1
   endif
 endfunction
