@@ -84,6 +84,11 @@ endfunction
 function! tasktimer#listtasks(...)
   let content = tasktimer#readfile()
 
+  if !exists('g:tasktimer_userfunc.format')
+    echomsg 'Tasktimer: g:tasktimer_userfunc.format must be defined.'
+    return
+  endif
+
   call tasktimer#preparebuffer()
   if !empty(a:0 > 0)
     for entry in content
@@ -128,7 +133,8 @@ function! tasktimer#appendbuffer(entry)
     let line = line . '|' . strftime(g:tasktimer_timeformat, a:entry.end)
   endif
 
-  let line = line . '|' . tasktimer#format(calc)
+  let FnFormat = function(g:tasktimer_userfunc.format)
+  let line = line . '|' . FnFormat(calc)
 
   call append(line('.'), line)
 endfunction
@@ -249,7 +255,7 @@ function! tasktimer#calc(entry)
 endfunction
 
 " Function: The format function, which is responsibe of formatting
-" seconds to a humand readable time like HH:mm.
+" the calculated seconds to a humand readable time like HH:mm.
 function tasktimer#format(seconds)
   let time = tasktimer#parse(a:seconds)
   return printf('%.0fh %.0fm', time.hours, time.minutes) 
