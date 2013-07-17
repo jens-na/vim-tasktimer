@@ -2,11 +2,9 @@ Overview
 =============
 **vim-tasktimer** is a task timer for the Vim editor
 
-Features
---------
+###Features
 
-Installation
-------------
+###Installation
 
 Usage
 =====
