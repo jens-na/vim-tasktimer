@@ -115,10 +115,19 @@ endfunction
 
 " Function: Appends an entry to the current buffer
 function! tasktimer#appendbuffer(entry)
-  let calc = tasktimer#calc(a:entry)
 
   let line = a:entry.task . '|' . strftime(g:tasktimer_timeformat, a:entry.start)
-  let line = line . ' - ' . strftime(g:tasktimer_timeformat, a:entry.end)
+
+  " show current time if not finished yet
+  if a:entry.end == "*PENDING*"
+    let a:entry.end = string(localtime())
+    let calc = tasktimer#calc(a:entry)
+    let line = line . '|until now'
+  else
+    let calc = tasktimer#calc(a:entry)
+    let line = line . '|' . strftime(g:tasktimer_timeformat, a:entry.end)
+  endif
+
   let line = line . '|' . tasktimer#format(calc)
 
   call append(line('.'), line)
