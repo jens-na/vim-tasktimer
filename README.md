@@ -20,7 +20,7 @@ directory directly:
 
     cd ~/.vim
     git clone https://github.com/jens-na/vim-tasktimer.git
-  
+    
 Usage
 =====
 
