@@ -302,6 +302,7 @@ function tasktimer#preparebuffer()
     let cmd = cmd . ' new'
     exe cmd
     set modifiable
+    setlocal statusline=0
     setf tasktimer
     set buftype=nofile
     let t:tasktimer_winnr = bufnr('$')
