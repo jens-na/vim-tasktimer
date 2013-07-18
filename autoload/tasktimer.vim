@@ -84,22 +84,24 @@ endfunction
 function! tasktimer#listtasks(...)
   let content = tasktimer#readfile()
 
+  " 1 if at least one item found
+  let foundtask = 0
+
   if !exists('g:tasktimer_userfunc.format')
     echomsg 'Tasktimer: g:tasktimer_userfunc.format must be defined.'
     return
   endif
 
-  call tasktimer#preparebuffer()
   if !empty(a:0 > 0)
     for entry in content
       if !empty(entry.task) && !empty(entry.start)
-        let found = 0
-
-        " loop through params
         for task in a:000
           if task == entry.task
+            if foundtask == 0
+              call tasktimer#preparebuffer()
+              let foundtask = 1
+            endif
             call tasktimer#appendbuffer(entry)
-            let firstline = 0
           endif
         endfor
       endif
@@ -107,20 +109,26 @@ function! tasktimer#listtasks(...)
   else
     for entry in content
       if !empty(entry.task) && !empty(entry.start)
+        if foundtask == 0
+          call tasktimer#preparebuffer()
+          let foundtask = 1
+        endif
         call tasktimer#appendbuffer(entry)
-        let firstline = 0
       endif
     endfor
   endif
-  " remove the empty first line and go to the real first line
-  silent 1delete
-  1
-  call tasktimer#completebuffer()
+
+  if foundtask != 0
+    silent 1delete
+    1
+    call tasktimer#completebuffer()
+  else
+    echomsg 'Tasktimer: No task found.'
+  endif
 endfunction
 
 " Function: Appends an entry to the current buffer
 function! tasktimer#appendbuffer(entry)
-
   let line = a:entry.task . '|' . strftime(g:tasktimer_timeformat, a:entry.start)
 
   " show current time if not finished yet
@@ -293,10 +301,13 @@ function tasktimer#preparebuffer()
     let cmd = cmd . ' ' . g:tasktimer_windowheight
     let cmd = cmd . ' new'
     exe cmd
+    set modifiable
+    setf tasktimer
+    set buftype=nofile
     let t:tasktimer_winnr = bufnr('$')
   else
-    exe t:tasktimer_winnr . "wincmd w"
     set modifiable
+    exe t:tasktimer_winnr . "wincmd w"
     silent %delete
   endif
 endfunction
@@ -304,7 +315,7 @@ endfunction
 " Function: Completes The buffer. Specifically this function sets to buffer to
 " 'nomodifiable.
 function tasktimer#completebuffer()
-  if exists('t:tasktimer_winnr') == 0 
+  if exists('t:tasktimer_winnr') 
     set nomodifiable
   endif
 endfunction
