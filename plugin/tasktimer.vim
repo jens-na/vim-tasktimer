@@ -43,6 +43,16 @@ if !has_key(g:tasktimer_userfunc, 'format')
   let g:tasktimer_userfunc.format = 'tasktimer#format'
 endif
 
+command! -n=1 TasktimerStart call tasktimer#start(<args>)
+command! -n=0 TasktimerStop call tasktimer#stop()
+command! -n=0 TasktimerStatus call tasktimer#status()
+command! -n=* -complete=customlist,s:Tasktimer_Compl TasktimerList call tasktimer#listtasks(<f-args>)
+
+" Function: The custom complete function 
+function! s:Tasktimer_Compl(ArgLead, CmdLine, CursorPos)
+  echo 'test'
+endfunction
+
 " :TasktimerStart <task>
 " :TasktimerStop
 " :TasktimerStatus
