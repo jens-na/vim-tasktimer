@@ -16,10 +16,7 @@ vim-tasktimer like that:
     git clone https://github.com/jens-na/vim-tasktimer.git
     
 If you really don't like to use pathogen you can still install it in the <tt>~/.vim/</tt>
-directory directly:
-
-    cd ~/.vim
-    git clone https://github.com/jens-na/vim-tasktimer.git
+directory directly.
     
 Usage
 =====
