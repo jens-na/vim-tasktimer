@@ -11,11 +11,11 @@ scriptencoding utf-8
 
 " Initialization
 if exists("loaded_tasktimer")
-    finish
+  finish
 endif
 if v:version < 700
-    echoerr "Tasktimer: this plugin requires vim >= 7." 
-    finish
+  echoerr "Tasktimer: this plugin requires vim >= 7." 
+  finish
 endif
 let loaded_tasktimer = 1
 
@@ -50,7 +50,18 @@ command! -n=* -complete=customlist,s:Tasktimer_Compl TasktimerList call tasktime
 
 " Function: The custom complete function 
 function! s:Tasktimer_Compl(ArgLead, CmdLine, CursorPos)
-  echo 'test'
+  let filename = fnamemodify(g:tasktimer_file, ':p')
+  let tasknames = []
+
+  for line in readfile(filename)
+    let items = split(line, ';')
+    let task = items[0]
+
+    if index(tasknames, task) == -1
+      call insert(tasknames, task)
+    endif
+  endfor
+  return tasknames
 endfunction
 
 " :TasktimerStart <task>
