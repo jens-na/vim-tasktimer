@@ -35,6 +35,24 @@ Usage
 - <tt>g:tasktimer_dateformat</tt> the default output format for a date. See strftime(3) for the date format.
   <br/>Default: <tt>%Y-%m-%d</tt>
 
+###Basic functions
+
+- <tt>g:tasktimer_userfunc.format</tt> defines the function how to output a time.
+
+Example user function:
+```vim
+let g:tasktimer_userfunc = {
+ \ 'format' : 'Tasktimer_Custom_Format'
+ \ }
+
+function! Tasktimer_Custom_Format(seconds)
+  let time = tasktimer#parsedecimal(a:seconds)
+  return printf('%.0f,%.0f', time.hours, time.minutes)
+endfunction
+```
+
+The default output for a time is <tt>HH:mm</tt>.
+
 License and Copyright
 =====================
 Licensed under the GNU General Public License 3.
