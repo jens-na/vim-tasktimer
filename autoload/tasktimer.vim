@@ -83,6 +83,7 @@ endfunction
 
 function! tasktimer#listtasks(...)
   let content = tasktimer#readfile()
+  let content = sort(content, "tasktimer#sortdate")
 
   " 1 if at least one item found
   let foundtask = 0
@@ -311,6 +312,11 @@ function tasktimer#preparebuffer()
     exe t:tasktimer_winnr . "wincmd w"
     silent %delete
   endif
+endfunction
+
+" Function: Sort content by 1) date 
+function! tasktimer#sortdate(i1, i2)
+  return a:i1.start == a:i2.start ? 0 : a:i1.start < a:i2.start ? 1  : -1 
 endfunction
 
 " Function: Completes The buffer. Specifically this function sets to buffer to
