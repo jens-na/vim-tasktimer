@@ -53,6 +53,23 @@ endfunction
 
 The default output for a time is <tt>HH:mm</tt>.
 
+Example
+=======
+You have to work on a change request named 'CR-223'. You can now start your task timer in Vim:
+
+    :TasktimerStart CR-223
+
+
+When you are finished with the development of CR-223 you can stop the timer.
+
+    :TasktimerStop
+
+
+If you later need to know the time of development for CR-223 you can see all the times with:
+
+    :TasktimerList CR-223
+
+
 License and Copyright
 =====================
 Licensed under the GNU General Public License 3.
