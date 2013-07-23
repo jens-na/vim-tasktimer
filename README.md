@@ -42,7 +42,8 @@ Usage
 Example user function:
 ```vim
 let g:tasktimer_userfunc = {
- \ 'format' : 'Tasktimer_Custom_Format'
+ \ 'format' : 'Tasktimer_Custom_Format',
+ \ 'format_total' : 'Tasktimer_Custom_Format'
  \ }
 
 function! Tasktimer_Custom_Format(seconds)
