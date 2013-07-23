@@ -83,7 +83,7 @@ endfunction
 
 function! tasktimer#listtasks(...)
   let content = tasktimer#readfile()
-  let content = sort(content, "tasktimer#sortdate")
+  let content = sort(content) 
 
   " 1 if at least one item found
   let foundtask = 0
