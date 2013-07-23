@@ -83,10 +83,11 @@ endfunction
 
 function! tasktimer#listtasks(...)
   let content = tasktimer#readfile()
-  let content = sort(content) 
+  let content = sort(content, 'tasktimer#sorttask') 
 
   " 1 if at least one item found
   let foundtask = 0
+  let tasksum = 0
 
   if !exists('g:tasktimer_userfunc.format')
     echomsg 'Tasktimer: g:tasktimer_userfunc.format must be defined.'
@@ -94,7 +95,8 @@ function! tasktimer#listtasks(...)
   endif
 
   if !empty(a:0 > 0)
-    for entry in content
+    for j in range(0, len(content) -1)
+      let entry = get(content, j)
       if !empty(entry.task) && !empty(entry.start)
         for task in a:000
           if task == entry.task
@@ -102,19 +104,30 @@ function! tasktimer#listtasks(...)
               call tasktimer#preparebuffer()
               let foundtask = 1
             endif
+            let tasksum = tasksum + tasktimer#calc(entry)
             call tasktimer#appendbuffer(entry)
+            if j+1 > len(content) -1 || get(content, j+1).task != entry.task
+              call tasktimer#appendtasksum(tasksum) 
+              let tasksum = 0
+            endif
           endif
         endfor
       endif
     endfor
   else
-    for entry in content
+    for j in range(0, len(content) -1) 
+      let entry = get(content, j)
       if !empty(entry.task) && !empty(entry.start)
         if foundtask == 0
           call tasktimer#preparebuffer()
           let foundtask = 1
         endif
+        let tasksum = tasksum + tasktimer#calc(entry)
         call tasktimer#appendbuffer(entry)
+        if j+1 > len(content) -1 || get(content, j+1).task != entry.task
+            call tasktimer#appendtasksum(tasksum)
+            let tasksum = 0
+        endif
       endif
     endfor
   endif
@@ -145,7 +158,16 @@ function! tasktimer#appendbuffer(entry)
   let FnFormat = function(g:tasktimer_userfunc.format)
   let line = line . '|' . FnFormat(calc)
 
-  call append(line('.'), line)
+  call append(line('$'), line)
+endfunction
+
+function! tasktimer#appendtasksum(tasksum)
+  let line = 'Total: ' 
+
+  let FnFormat = function(g:tasktimer_userfunc.format_total)
+  let line = line . FnFormat(a:tasksum)
+
+  call append(line('$'), line)
 endfunction
 
 " Function: Creates the tasktimer file if it doesn't exist already.
@@ -264,15 +286,15 @@ function! tasktimer#calc(entry)
 endfunction
 
 " Function: The format function, which is responsibe of formatting
-" the calculated seconds to a humand readable time like HH:mm.
-function tasktimer#format(seconds)
+" the calculated seconds to a humand readable time like HH:mm:ss.
+function! tasktimer#format(seconds)
   let time = tasktimer#parse(a:seconds)
-  return printf('%.0fh %.0fm', time.hours, time.minutes) 
+  return printf('%.0fh %.0fm %.0fs', time.hours, time.minutes, time.seconds) 
 endfunction
 
 " Function: This function returns an dictionary which contains 'hours,
 " minutes, seconds' for the timed seconds.
-function tasktimer#parse(seconds)
+function! tasktimer#parse(seconds)
     let time = {}
     let time.hours = floor(a:seconds / 3600)
     let time.minutes = floor((a:seconds / 60) % 60)
@@ -282,7 +304,7 @@ endfunction
 
 " Function: Returns a decimal representation of the time. Returns
 " a dictionary with hours, minutes and seconds.
-function tasktimer#parsedecimal(seconds)
+function! tasktimer#parsedecimal(seconds)
   let time = tasktimer#parse(a:seconds)
 
   if !empty(time)
@@ -296,7 +318,7 @@ endfunction
 
 " Function: Prepares the buffer where all the listing information should
 " be listed.
-function tasktimer#preparebuffer() 
+function! tasktimer#preparebuffer() 
   if tasktimer#isopen() == -1
     let cmd = g:tasktimer_windowpos
     let cmd = cmd . ' ' . g:tasktimer_windowheight
@@ -314,6 +336,29 @@ function tasktimer#preparebuffer()
   endif
 endfunction
 
+" Funtion: Sort content by 1) task and 2) date
+function! tasktimer#sorttask(i1, i2)
+  let task1 = a:i1.task
+  let task2 = a:i2.task
+
+  if task1 == task2
+    return 0
+  endif
+
+  for j in range(0, len(task1) -1)
+    let cnr1 = char2nr(task1[j])
+    let cnr2 = char2nr(task2[j])
+
+    if cnr1 < cnr2
+      return -1
+    else
+      if cnr1 > cnr2
+        return 1
+      endif
+    endif
+  endfor
+endfunction
+
 " Function: Sort content by 1) date 
 function! tasktimer#sortdate(i1, i2)
   return a:i1.start == a:i2.start ? 0 : a:i1.start < a:i2.start ? 1  : -1 
@@ -328,7 +373,7 @@ function tasktimer#completebuffer()
 endfunction
 
 " Function: Checks if the buffer of tasktimer is associated with a window
-function tasktimer#isopen()
+function! tasktimer#isopen()
   if exists('t:tasktimer_winnr')
     return bufwinnr(t:tasktimer_winnr)
   else
