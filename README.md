@@ -80,4 +80,4 @@ Licensed under the GNU General Public License 3.
 
 (c) Jens Nazarenus, 2013
 
-[1]: http://i.imgur.com/Q1zbc5W.png
+[1]: http://i.imgur.com/HxiTeBz.png
