@@ -17,6 +17,9 @@ vim-tasktimer like that:
     
 If you really don't like to use pathogen you can still install it in the <tt>~/.vim/</tt>
 directory directly.
+
+###Screenshot
+![tasktimer][1]
     
 Usage
 =====
@@ -76,3 +79,5 @@ License and Copyright
 Licensed under the GNU General Public License 3.
 
 (c) Jens Nazarenus, 2013
+
+[1]: http://i.imgur.com/Q1zbc5W.png
