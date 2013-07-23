@@ -9,3 +9,6 @@
 
 syn match tasktimer_task #^.\{-}|#he=e-1
 hi def link tasktimer_task String
+
+syn match tasktimer_total #^Total:#
+hi def link tasktimer_total Repeat
