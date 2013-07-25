@@ -52,7 +52,7 @@ let g:tasktimer_userfunc = {
 
 function! Tasktimer_Custom_Format(seconds)
   let time = tasktimer#parsedecimal(a:seconds)
-  return printf('%.0f,%.0f', time.hours, time.minutes)
+  return printf('%d,%.2d', time.hours, time.minutes)
 endfunction
 ```
 
