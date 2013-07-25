@@ -296,9 +296,9 @@ endfunction
 " minutes, seconds' for the timed seconds.
 function! tasktimer#parse(seconds)
     let time = {}
-    let time.hours = floor(a:seconds / 3600)
-    let time.minutes = floor((a:seconds / 60) % 60)
-    let time.seconds = a:seconds % 60
+    let time.hours = float2nr(floor(a:seconds / 3600))
+    let time.minutes = float2nr(floor((a:seconds / 60) % 60))
+    let time.seconds = float2nr(a:seconds % 60)
     return time
 endfunction
 
@@ -310,8 +310,8 @@ function! tasktimer#parsedecimal(seconds)
   if !empty(time)
     let dec_min = (time.minutes * 100) / 60 
     let dec_sec = (time.seconds * 100) / 60
-    let time.minutes = floor(dec_min)
-    let time.seconds = floor(dec_sec)
+    let time.minutes = float2nr(floor(dec_min))
+    let time.seconds = float2nr(floor(dec_sec))
     return time
   endif
 endfunction
