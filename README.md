@@ -56,7 +56,7 @@ function! Tasktimer_Custom_Format(seconds)
 endfunction
 ```
 
-The default output for a time is <tt>HH:mm</tt>.
+The default output for a time is <tt>HH mm ss</tt>.
 
 Example
 =======
