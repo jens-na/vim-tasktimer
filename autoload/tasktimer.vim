@@ -289,7 +289,7 @@ endfunction
 " the calculated seconds to a humand readable time like HH:mm:ss.
 function! tasktimer#format(seconds)
   let time = tasktimer#parse(a:seconds)
-  return printf('%.0fh %.0fm %.0fs', time.hours, time.minutes, time.seconds) 
+  return printf('%dh %dm %ds', time.hours, time.minutes, time.seconds) 
 endfunction
 
 " Function: This function returns an dictionary which contains 'hours,
