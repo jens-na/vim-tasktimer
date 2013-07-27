@@ -104,6 +104,7 @@ function! tasktimer#listtasks(...)
               call tasktimer#preparebuffer()
               let foundtask = 1
             endif
+
             let tasksum = tasksum + tasktimer#calc(entry)
             call tasktimer#appendbuffer(entry)
             if j+1 > len(content) -1 || get(content, j+1).task != entry.task
@@ -122,6 +123,7 @@ function! tasktimer#listtasks(...)
           call tasktimer#preparebuffer()
           let foundtask = 1
         endif
+        
         let tasksum = tasksum + tasktimer#calc(entry)
         call tasktimer#appendbuffer(entry)
         if j+1 > len(content) -1 || get(content, j+1).task != entry.task
@@ -279,9 +281,22 @@ endfunction
 " Function: Calcs the time for one specific timed task.
 " Returns: 0, no times, > 0 times found. Returns seconds
 function! tasktimer#calc(entry)
-  if !empty(a:entry.task) && !empty(a:entry.start) && !empty(a:entry.end)
-    return (a:entry.end - a:entry.start)
+  let pending = 0
+  if a:entry.end == '*PENDING*'
+    let pending = 1
+    let a:entry.end = localtime()
   endif
+
+  if !empty(a:entry.task) && !empty(a:entry.start) && !empty(a:entry.end)
+    let diff = a:entry.end - a:entry.start
+
+    if pending == 1
+      let a:entry.end = '*PENDING*'
+    endif
+
+    return diff
+  endif
+
   return 0
 endfunction
 
