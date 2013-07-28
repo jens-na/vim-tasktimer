@@ -43,7 +43,7 @@ Usage
 - <tt>g:tasktimer_userfunc.format</tt> defines the function how to output a time.
 - <tt>g:tasktimer_userfunc.format_total</tt> defines the output format of the total time of a task.
 
-Example user function:
+Example user function (decimal representation of all times):
 ```vim
 let g:tasktimer_userfunc = {
  \ 'format' : 'Tasktimer_Custom_Format',
