@@ -60,6 +60,15 @@ function! tasktimer#stop()
   endif
 endfunction
 
+" Function: Clears the tasktimer file
+function! tasktimer#clear()
+  if filewritable(g:tasktimer_file)
+    let filename = fnamemodify(g:tasktimer_file, ':p')
+    exe 'redir! > ' . filename
+    redir END
+  endif
+endfunction
+
 " Function: Prints a status message for the tasktimer.
 function! tasktimer#status()
   let content = tasktimer#readfile()
