@@ -8,41 +8,85 @@ Version:      1.0
 ===============================================================================
 Contents                                                    *tasktimer-contents*
 
-         1. Introduction..................... |tasktimer-introduction|
-              Starting and Stoppping ........ |tasktimer-startstop|
-              Calculation and Listing ....... |tasktimer-calculation|
-         2. Installation .................... |tasktimer-installation|
-         3. Usage ........................... |tasktimer-usage|
-              Commands ...................... |tasktimer-commands|
-              Key mappings .................. |tasktimer-mappings|
-         4. Configuration ................... |tasktimer-configuration|
-              Highlight colors .............. |tasktimer-colors|
-              Trigger functions ............. |tasktimer-trigger|
-              Toolbar function .............. |tasktimer-toolbar|
-              Advanced hacking .............. |tasktimer-advanced-hacking|
+         1 Introduction...................... |tasktimer-introduction|
+           1.1 Starting and Stoppping ....... |tasktimer-startstop|
+           1.2 Calculation and Listing ...... |tasktimer-calculation|
+         2 Installation ..................... |tasktimer-installation|
+         3 Usage ............................ |tasktimer-usage|
+           3.1 Commands ..................... |tasktimer-commands|
+         4 Configuration .................... |tasktimer-configuration|
+           4.1 Variables .................... |tasktimer-variables|
+           4.2 Format functions ............. |tasktimer-formatfunc|
          5. Extending Tasktimer ............. |tasktimer-extending|
          6. Troubleshooting & Known issues .. |tasktimer-troublehooting|
-         9. Credits ......................... |tasktimer-credits|
+         7. Credits ......................... |tasktimer-credits|
 
 ===============================================================================
-Introduction                                            *tasktimer-introduction*
+1 Introduction                                          *tasktimer-introduction*
 
 Tasktimer is a plugin for timing tasks. You can start/stop tasks and keep
 track of already completed tasks. Furthermore the plugin provides functions to
 list and calculate with the task times.
 
 ===============================================================================
-Installation                                            *tasktimer-installation*
+1.1 Starting and Stopping                                  *tasktimer-startstop*
+
+If you want to start the timer because you want to start a task you can type
+the following command:
+>
+    :TasktimerStart <task>
+
+If you have finished your work with the task you can stop the task again with
+the command:
+>
+    :TasktimerStop
+>
+To get a list of all your completed (and still active) tasks you can simply
+use the command `:TasktimerList`.
+
+===============================================================================
+1.2 Calculation and Listing                              *tasktimer-calculation*
+
+===============================================================================
+2 Installation                                          *tasktimer-installation*
 
 If you don't have a preferred way of installing plugins, I suggest to install
 vim-pathogen first and clone the repository in the directory ~/.vim/bundle.
-
+>
     cd ~/.vim/bundle
     git clone https://github.com/jens-na/vim-tasktimer.git
-
+<
 If you don't wnat to ues vim-pathogen you can still install it in your ~/.vim/
 folder directly.
 
 ===============================================================================
+3 Usage                                                        *tasktimer-usage*
+
+===============================================================================
+3.1 Commands                                                *tasktimer-commands*
+
+===============================================================================
+4 Configuration                                        *tasktimer-configuration*
+
+===============================================================================
+4.1 Variables                                              *tasktimer-variables*
+
+===============================================================================
+4.2 Format functions                                      *tasktimer-formatfunc*
+
+===============================================================================
+5 Extending Tasktimer                                      *tasktimer-extending*
+
+===============================================================================
+6 Troubleshooting & Known issues                     *tasktimer-troubleshooting*
+
+===============================================================================
+7 Credits                                                    *tasktimer-credits*
+
+
+
+
+
+
 
 vim:tw=78:ts=8:ft=help:norl:
