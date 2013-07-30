@@ -65,11 +65,44 @@ folder directly.
 ===============================================================================
 3.1 Commands                                                *tasktimer-commands*
 
+:TasktimerStart {task}                                         *:TasktimerStart*
+  Starts the timer for the specified task and saves the taskname with the
+  current time in the the tasktimer (|g:tasktimer_file|). All times in this
+  file is the result of the function `localtime().`
+
+:TasktimerStop                                                  *:TasktimerStop*
+  Stops the timer for the currently acive task. The end time in
+  |g:tasktimer_file| gets updated to the current time.
+
+:TasktimerStatus                                              *:TasktimerStatus*
+  Shows information about the currently active task. If there is no active
+  task, this command will print a message that there is no active task at the
+  moment.
+
+:TasktimerList [{tasks...}]                                     *:TasktimerList*
+  Lists the timed and currently active tasks if no parameter given. The
+  command takes up to 20 parameters where you can specify exactly which tasks
+  should be displayed. If no task is found for the specified scope the command
+  will print the message: No task found.
+
+:TasktimerClear                                                *:TasktimerClear*
+  Clears the |g:tasktimer_file|. This fnuction will delete all your timed
+  tasks!
 ===============================================================================
 4 Configuration                                        *tasktimer-configuration*
 
 ===============================================================================
 4.1 Variables                                              *tasktimer-variables*
+
+                                                              *g:tasktimer_file*
+g:tasktimer_file~
+Default: ~/.vim_tasktimer
+
+The file where all the timed tasks will be saved.
+
+Example:
+>
+    let g:tasktimer_file = expand('$HOME$') . /.my_custom_task_file
 
 ===============================================================================
 4.2 Format functions                                      *tasktimer-formatfunc*
