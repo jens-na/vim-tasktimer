@@ -1,4 +1,4 @@
-*tasktimer.txt*                 task timer for Vim                     14.07.2013 
+*tasktimer.txt*                 task timer for Vim                     30.07.2013 
 
 Author:       Jens Nazarenus <jens@0x6a.de>
 License:      Vim license, see license
@@ -11,21 +11,18 @@ Contents                                                    *tasktimer-contents*
          1. Introduction..................... |tasktimer-introduction|
               Starting and Stoppping ........ |tasktimer-startstop|
               Calculation and Listing ....... |tasktimer-calculation|
-         2. Requirements .................... |tasktimer-requirements|
-         3. Installation .................... |tasktimer-installation|
-         4. Usage ........................... |tasktimer-usage|
+         2. Installation .................... |tasktimer-installation|
+         3. Usage ........................... |tasktimer-usage|
               Commands ...................... |tasktimer-commands|
               Key mappings .................. |tasktimer-mappings|
-         5. Configuration ................... |tasktimer-configuration|
+         4. Configuration ................... |tasktimer-configuration|
               Highlight colors .............. |tasktimer-colors|
               Trigger functions ............. |tasktimer-trigger|
               Toolbar function .............. |tasktimer-toolbar|
               Advanced hacking .............. |tasktimer-advanced-hacking|
-         6. Extending Tasktimer ............. |tasktimer-extending|
-         7. Troubleshooting & Known issues .. |tasktimer-troublehooting|
-         8. History ......................... |tasktimer-history|
-         9. Todo ............................ |tasktimer-todo|
-        10. Credits ......................... |tasktimer-credits|
+         5. Extending Tasktimer ............. |tasktimer-extending|
+         6. Troubleshooting & Known issues .. |tasktimer-troublehooting|
+         9. Credits ......................... |tasktimer-credits|
 
 ===============================================================================
 Introduction                                            *tasktimer-introduction*
@@ -34,5 +31,18 @@ Tasktimer is a plugin for timing tasks. You can start/stop tasks and keep
 track of already completed tasks. Furthermore the plugin provides functions to
 list and calculate with the task times.
 
+===============================================================================
+Installation                                            *tasktimer-installation*
+
+If you don't have a preferred way of installing plugins, I suggest to install
+vim-pathogen first and clone the repository in the directory ~/.vim/bundle.
+
+    cd ~/.vim/bundle
+    git clone https://github.com/jens-na/vim-tasktimer.git
+
+If you don't wnat to ues vim-pathogen you can still install it in your ~/.vim/
+folder directly.
+
+===============================================================================
 
 vim:tw=78:ts=8:ft=help:norl:
