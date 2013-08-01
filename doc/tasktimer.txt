@@ -106,7 +106,7 @@ Example:
     let g:tasktimer_file = expand('$HOME$') . /.my_custom_task_file
 <
 
-*g:tasktimer_timeformat*
+                                                        *g:tasktimer_timeformat*
 g:tasktimer_timeformat~
 Default: %Y-%m-%d %H:%M 
 
@@ -117,9 +117,9 @@ more information about the pattern.
 Example:
 >
     let g:tasktimer_timeformat = "%d.%m.%d - %H:%M"
->
+<
 
-*g:tasktimer_dateformat*
+                                                        *g:tasktimer_dateformat*
 g:tasktimer_dateformat~
 Default: %Y-%m-%d 
 
@@ -130,9 +130,9 @@ more information about the pattern.
 Example:
 >
     let g:tasktimer_dateformat = "%d.%m.%Y"
->
->
-*g:tasktimer_windowpos*
+<
+
+                                                         *g:tasktimer_windowpos*
 g:tasktimer_windowpos~
 Default: belowright 
 
@@ -142,9 +142,9 @@ topleft, vertical, etc.
 Example:
 >
     let g:tasktimer_windowpos = "topleft"
->
->
-*g:tasktimer_windowheight*
+<
+
+                                                      *g:tasktimer_windowheight*
 g:tasktimer_windowheight~
 Default: 10
 
@@ -158,6 +158,31 @@ Example:
 ===============================================================================
 4.2 Format functions                                      *tasktimer-formatfunc*
 
+                                                   *g:tasktimer_userfunc.format*
+g:tasktimer_userfunc.format~
+Default: tasktimer#format
+
+Defines a custom function to format the time for each individual task.
+>
+    let g:tasktimer_userfunc = {
+    \ 'format' : 'Tasktimer_Custom_Format'
+    \ }
+
+    function! Tasktimer_Custom_Format(seconds)
+      let time = tasktimer#parsedecimal(a:seconds)
+      return printf('%d,%.2d', time.hours, time.minutes)
+    endfunction
+<
+                                             *g:tasktimer_userfunc.format_total*
+g:tasktimer_userfunc.format_total~
+Default: tasktimer#format
+
+Defines a custom function to format the total value of a task.
+>
+    let g:tasktimer_userfunc = {
+    \ 'format_total' : 'Tasktimer_Custom_Format'
+    \ }
+>
 ===============================================================================
 5 Extending Tasktimer                                      *tasktimer-extending*
 
