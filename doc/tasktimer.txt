@@ -158,13 +158,13 @@ Example:
 ===============================================================================
 4.2 Format functions                                      *tasktimer-formatfunc*
 
-                                                   *g:tasktimer_userfunc.format*
-g:tasktimer_userfunc.format~
+                                                   *g:tasktimer_formatfunc.format*
+g:tasktimer_formatfunc.format~
 Default: tasktimer#format
 
 Defines a custom function to format the time for each individual task.
 >
-    let g:tasktimer_userfunc = {
+    let g:tasktimer_formatfunc = {
     \ 'format' : 'Tasktimer_Custom_Format'
     \ }
 
@@ -173,13 +173,13 @@ Defines a custom function to format the time for each individual task.
       return printf('%d,%.2d', time.hours, time.minutes)
     endfunction
 <
-                                             *g:tasktimer_userfunc.format_total*
-g:tasktimer_userfunc.format_total~
+                                             *g:tasktimer_formatfunc.format_total*
+g:tasktimer_formatfunc.format_total~
 Default: tasktimer#format
 
 Defines a custom function to format the total value of a task.
 >
-    let g:tasktimer_userfunc = {
+    let g:tasktimer_formatfunc = {
     \ 'format_total' : 'Tasktimer_Custom_Format'
     \ }
 >

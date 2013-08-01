@@ -98,8 +98,8 @@ function! tasktimer#listtasks(...)
   let foundtask = 0
   let tasksum = 0
 
-  if !exists('g:tasktimer_userfunc.format')
-    echomsg 'Tasktimer: g:tasktimer_userfunc.format must be defined.'
+  if !exists('g:tasktimer_formatfunc.format')
+    echomsg 'Tasktimer: g:tasktimer_formatfunc.format must be defined.'
     return
   endif
 
@@ -166,7 +166,7 @@ function! tasktimer#appendbuffer(entry)
     let line = line . '|' . strftime(g:tasktimer_timeformat, a:entry.end)
   endif
 
-  let FnFormat = function(g:tasktimer_userfunc.format)
+  let FnFormat = function(g:tasktimer_formatfunc.format)
   let line = line . '|' . FnFormat(calc)
 
   call append(line('$'), line)
@@ -175,7 +175,7 @@ endfunction
 function! tasktimer#appendtasksum(tasksum)
   let line = 'Total: ' 
 
-  let FnFormat = function(g:tasktimer_userfunc.format_total)
+  let FnFormat = function(g:tasktimer_formatfunc.format_total)
   let line = line . FnFormat(a:tasksum)
 
   call append(line('$'), line)

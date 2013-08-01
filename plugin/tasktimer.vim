@@ -34,17 +34,17 @@ call s:init_var("g:tasktimer_dateformat", "%Y-%m-%d")
 call s:init_var("g:tasktimer_windowpos", "belowright")
 call s:init_var("g:tasktimer_windowheight", "10")
 
-if !exists('g:tasktimer_userfunc')
-  let g:tasktimer_userfunc = {}
+if !exists('g:tasktimer_formatfunc')
+  let g:tasktimer_formatfunc = {}
 endif
 
 " function pointer which may be overridden by end user
-if !has_key(g:tasktimer_userfunc, 'format')
-  let g:tasktimer_userfunc.format = 'tasktimer#format'
+if !has_key(g:tasktimer_formatfunc, 'format')
+  let g:tasktimer_formatfunc.format = 'tasktimer#format'
 endif
 
-if !has_key(g:tasktimer_userfunc, 'format_total')
-  let g:tasktimer_userfunc.format_total = 'tasktimer#format'
+if !has_key(g:tasktimer_formatfunc, 'format_total')
+  let g:tasktimer_formatfunc.format_total = 'tasktimer#format'
 endif
 
 command! -n=1 TasktimerStart call tasktimer#start(<f-args>)
