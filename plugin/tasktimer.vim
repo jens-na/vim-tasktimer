@@ -51,7 +51,7 @@ command! -n=1 TasktimerStart call tasktimer#start(<f-args>)
 command! -n=0 TasktimerStop call tasktimer#stop()
 command! -n=0 TasktimerStatus call tasktimer#status()
 command! -n=0 TasktimerClear call tasktimer#clear()
-command! -n=* -complete=customlist,s:Tasktimer_Compl TasktimerList call tasktimer#listtasks(<f-args>)
+command! -n=* -complete=customlist,s:Tasktimer_Compl Tasktimer call tasktimer#listtasks(<f-args>)
 
 " Function: The custom complete function 
 function! s:Tasktimer_Compl(ArgLead, CmdLine, CursorPos)
@@ -68,9 +68,3 @@ function! s:Tasktimer_Compl(ArgLead, CmdLine, CursorPos)
   endfor
   return tasknames
 endfunction
-
-" :TasktimerStart <task>
-" :TasktimerStop
-" :TasktimerStatus
-" :TasktimerList [<task>]
-" :TasktimerListDate <date_from> [<date_to>]

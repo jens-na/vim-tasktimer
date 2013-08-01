@@ -17,6 +17,7 @@ Contents                                                    *tasktimer-contents*
          4 Configuration .................... |tasktimer-configuration|
            4.1 Variables .................... |tasktimer-variables|
            4.2 Format functions ............. |tasktimer-formatfunc|
+           4.3 Exec functions ............... |tasktimer-execfunc|
          5. Extending Tasktimer ............. |tasktimer-extending|
          6. Troubleshooting & Known issues .. |tasktimer-troublehooting|
          7. Credits ......................... |tasktimer-credits|
@@ -79,7 +80,7 @@ folder directly.
   task, this command will print a message that there is no active task at the
   moment.
 
-:TasktimerList [{tasks...}]                                     *:TasktimerList*
+:Tasktimer [{tasks...}]                                             *:Tasktimer*
   Lists the timed and currently active tasks if no parameter given. The
   command takes up to 20 parameters where you can specify exactly which tasks
   should be displayed. If no task is found for the specified scope the command
@@ -103,6 +104,56 @@ The file where all the timed tasks will be saved.
 Example:
 >
     let g:tasktimer_file = expand('$HOME$') . /.my_custom_task_file
+<
+
+*g:tasktimer_timeformat*
+g:tasktimer_timeformat~
+Default: %Y-%m-%d %H:%M 
+
+The pattern which represents a time in the tasktimer buffer. The pattern is
+similar to the pattern of the C function strftime(). See 'man 3 strftime' for
+more information about the pattern.
+
+Example:
+>
+    let g:tasktimer_timeformat = "%d.%m.%d - %H:%M"
+>
+
+*g:tasktimer_dateformat*
+g:tasktimer_dateformat~
+Default: %Y-%m-%d 
+
+The pattern which represents a date in the tasktimer buffer. The pattern is
+similar to the pattern of the C function strftime(). See 'man 3 strftime' for
+more information about the pattern.
+
+Example:
+>
+    let g:tasktimer_dateformat = "%d.%m.%Y"
+>
+>
+*g:tasktimer_windowpos*
+g:tasktimer_windowpos~
+Default: belowright 
+
+The window position of the tasktimer buffer. You can use values like botright,
+topleft, vertical, etc.
+
+Example:
+>
+    let g:tasktimer_windowpos = "topleft"
+>
+>
+*g:tasktimer_windowheight*
+g:tasktimer_windowheight~
+Default: 10
+
+The window height of the tasktimer buffer as integer.
+
+Example:
+>
+    let g:tasktimer_windowheight = "5"
+>
 
 ===============================================================================
 4.2 Format functions                                      *tasktimer-formatfunc*

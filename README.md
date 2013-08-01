@@ -29,7 +29,7 @@ Usage
 - Use <tt>:TasktimerStart &lt;task&gt;</tt> to start a timer for a specific task
 - Use <tt>:TasktimerStatus</tt> to get information about the currently active task.
 - Use <tt>:TasktimerStop</tt> to stop the timer for the task
-- With <tt>:TasktimerList [&lt;task...&gt;]</tt> you can see all the tasks you have already timed
+- With <tt>:Tasktimer [&lt;task...&gt;]</tt> you can see all the tasks you have already timed
 
 ###Basic variables
 
@@ -72,7 +72,7 @@ When you are finished with the development of CR-223 you can stop the timer.
 
 If you later need to know the time of development for CR-223 you can see all the times with:
 
-    :TasktimerList CR-223
+    :Tasktimer CR-223
 
 
 License and Copyright
