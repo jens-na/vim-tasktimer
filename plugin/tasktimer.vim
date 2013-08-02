@@ -71,9 +71,6 @@ if !has_key(g:tasktimer_execfunc, 'stop_post')
   let g:tasktimer_formatfunc.stop_post = 'tasktimer#exec_stoppost'
 endif
 
-
-
-
 command! -n=1 TasktimerStart call tasktimer#start(<f-args>)
 command! -n=0 TasktimerStop call tasktimer#stop()
 command! -n=0 TasktimerStatus call tasktimer#status()

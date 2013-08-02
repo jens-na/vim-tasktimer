@@ -158,11 +158,13 @@ Example:
 ===============================================================================
 4.2 Format functions                                      *tasktimer-formatfunc*
 
-                                                   *g:tasktimer_formatfunc.format*
+                                                 *g:tasktimer_formatfunc.format*
 g:tasktimer_formatfunc.format~
 Default: tasktimer#format
 
 Defines a custom function to format the time for each individual task.
+
+Example:
 >
     let g:tasktimer_formatfunc = {
     \ 'format' : 'Tasktimer_Custom_Format'
@@ -173,16 +175,36 @@ Defines a custom function to format the time for each individual task.
       return printf('%d,%.2d', time.hours, time.minutes)
     endfunction
 <
-                                             *g:tasktimer_formatfunc.format_total*
+                                           *g:tasktimer_formatfunc.format_total*
 g:tasktimer_formatfunc.format_total~
 Default: tasktimer#format
 
 Defines a custom function to format the total value of a task.
+
+Example:
 >
     let g:tasktimer_formatfunc = {
     \ 'format_total' : 'Tasktimer_Custom_Format'
     \ }
+<
+
+                                        *g:tasktimer_formatfunc.format_taskname*
+g:tasktimer_formatfunc.format_taskname~
+Default: tasktimer#formattask
+
+Defines the name of the task. Here you have the possibility to add a default
+prefix or postfix to your taskname.
+
+Example:
 >
+    let g:tasktimer_formatfunc = {
+    \ 'format_taskname' : 'Tasktimer_Custom_Task_Name'
+    \ }
+
+    function! Tasktimer_Custom_Task_Name(taskname)
+      return "ABC-" . a:taskname
+    endfunction
+
 ===============================================================================
 5 Extending Tasktimer                                      *tasktimer-extending*
 
