@@ -47,6 +47,33 @@ if !has_key(g:tasktimer_formatfunc, 'format_total')
   let g:tasktimer_formatfunc.format_total = 'tasktimer#format'
 endif
 
+if !has_key(g:tasktimer_formatfunc, 'format_taskname')
+  let g:tasktimer_formatfunc.format_taskname = 'tasktimer#formattask'
+endif
+
+if !exists('g:tasktimer_execfunc')
+  let g:tasktimer_execfunc = {}
+endif
+
+if !has_key(g:tasktimer_execfunc, 'start_pre')
+  let g:tasktimer_formatfunc.start_pre = 'tasktimer#exec_startpre'
+endif
+
+if !has_key(g:tasktimer_execfunc, 'start_post')
+  let g:tasktimer_formatfunc.start_post = 'tasktimer#exec_startpost'
+endif
+
+if !has_key(g:tasktimer_execfunc, 'stop_pre')
+  let g:tasktimer_formatfunc.stop_pre = 'tasktimer#exec_stoppre'
+endif
+
+if !has_key(g:tasktimer_execfunc, 'stop_post')
+  let g:tasktimer_formatfunc.stop_post = 'tasktimer#exec_stoppost'
+endif
+
+
+
+
 command! -n=1 TasktimerStart call tasktimer#start(<f-args>)
 command! -n=0 TasktimerStop call tasktimer#stop()
 command! -n=0 TasktimerStatus call tasktimer#status()

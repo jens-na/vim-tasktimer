@@ -154,7 +154,8 @@ endfunction
 
 " Function: Appends an entry to the current buffer
 function! tasktimer#appendbuffer(entry)
-  let line = a:entry.task . '|' . strftime(g:tasktimer_timeformat, a:entry.start)
+  let FnFormat = function(g:tasktimer_formatfunc.format_taskname)
+  let line = FnFormat(a:entry.task) . '|' . strftime(g:tasktimer_timeformat, a:entry.start)
 
   " show current time if not finished yet
   if a:entry.end == "*PENDING*"
@@ -309,6 +310,11 @@ function! tasktimer#calc(entry)
   return 0
 endfunction
 
+" Function: The format function for the task name
+function! tasktimer#formattask(taskname)
+  return a:taskname
+endfunction
+
 " Function: The format function, which is responsibe of formatting
 " the calculated seconds to a humand readable time like HH:mm:ss.
 function! tasktimer#format(seconds)
@@ -381,7 +387,7 @@ function! tasktimer#sorttask(i1, i2)
       endif
     endif
   endfor
-endfunction
+endfunctio
 
 " Function: Sort content by 1) date 
 function! tasktimer#sortdate(i1, i2)
