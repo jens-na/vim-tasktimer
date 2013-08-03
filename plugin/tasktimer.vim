@@ -55,7 +55,7 @@ if !exists('g:tasktimer_execfunc')
   let g:tasktimer_execfunc = {}
 endif
 
-command! -n=1 TasktimerStart call tasktimer#start(<f-args>)
+command! -n=* TasktimerStart call tasktimer#start(<f-args>)
 command! -n=0 TasktimerStop call tasktimer#stop()
 command! -n=0 TasktimerStatus call tasktimer#status()
 command! -n=0 TasktimerClear call tasktimer#clear()

@@ -17,19 +17,26 @@ let g:loaded_tasktimer_autoload = 1
 
 
 " Function: Starts the timer for a specified task
-function! tasktimer#start(task)
-  if empty(a:task)
-    echomsg 'Tasktimer: task cannot be empty.'
-    return
-  endif
-
+function! tasktimer#start(...)
   call tasktimer#preparefile()
   let content = tasktimer#readfile()
 
   if tasktimer#findpending(content) == 0
+    let task = ''
+    if a:0 == 0
+      let task = inputdialog('Taskname: ')
+    else
+      let task = a:1
+    endif
+
+    if empty(task)
+      echomsg 'Tasktimer: task cannot be empty.'
+      return
+    endif
+
     let start = string(localtime())
-    call tasktimer#writeline(a:task . ';' . start . ';*PENDING*')
-    echomsg 'Tasktimer: Task with name "' . a:task . '" started.'
+    call tasktimer#writeline(task . ';' . start . ';*PENDING*')
+    echomsg 'Tasktimer: Task with name "' . task . '" started.'
   else
     echomsg 'Tasktimer: There is a pending task. Please stop the task before.'
     return
