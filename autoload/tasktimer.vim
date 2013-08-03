@@ -116,7 +116,7 @@ function! tasktimer#listtasks(...)
 
             let tasksum = tasksum + tasktimer#calc(entry)
             call tasktimer#appendbuffer(entry)
-            if j+1 > len(content) -1 || get(content, j+1).task != entry.task
+            if j+1 > len(content) -1 || tasktimer#isnexttask(get(content, j+1), entry)
               call tasktimer#appendtasksum(tasksum) 
               let tasksum = 0
             endif
@@ -135,7 +135,7 @@ function! tasktimer#listtasks(...)
         
         let tasksum = tasksum + tasktimer#calc(entry)
         call tasktimer#appendbuffer(entry)
-        if j+1 > len(content) -1 || get(content, j+1).task != entry.task
+        if j+1 > len(content) -1 || tasktimer#isnexttask(get(content, j+1), entry)
             call tasktimer#appendtasksum(tasksum)
             let tasksum = 0
         endif
@@ -354,13 +354,13 @@ function! tasktimer#preparebuffer()
     let cmd = cmd . ' ' . g:tasktimer_windowheight
     let cmd = cmd . ' new'
     exe cmd
-    set modifiable
+    setlocal modifiable
     setlocal statusline=0
     setf tasktimer
-    set buftype=nofile
+    setlocal buftype=nofile
     let t:tasktimer_winnr = bufnr('$')
   else
-    set modifiable
+    setlocal modifiable
     exe t:tasktimer_winnr . "wincmd w"
     silent %delete
   endif
@@ -392,6 +392,30 @@ endfunctio
 " Function: Sort content by 1) date 
 function! tasktimer#sortdate(i1, i2)
   return a:i1.start == a:i2.start ? 0 : a:i1.start < a:i2.start ? 1  : -1 
+endfunction
+
+" Function: Checks if day of month changed and returns 1 if true or 0 if
+" otherwise.
+function! tasktimer#isnextday(i1, i2)
+  let day1 = strftime("%d", a:i1.start)
+  let day2 = strftime("%d", a:a2.start)
+
+  if day2 == day1
+    return 0
+  else
+    return 1
+endfunction
+
+" Function: Checks if the task name has changed and return 1 if true or 0
+" otherwise.
+function! tasktimer#isnexttask(i1, i2)
+  let tname1 = a:i1.task
+  let tname2 = a:i2.task
+
+  if tname1 == tname2
+    return 0
+  else
+    return 1
 endfunction
 
 " Function: Completes The buffer. Specifically this function sets to buffer to
