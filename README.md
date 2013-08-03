@@ -26,7 +26,7 @@ Usage
 
 ###Basic Commands
 
-- Use <tt>:TasktimerStart &lt;task&gt;</tt> to start a timer for a specific task
+- Use <tt>:TasktimerStart [&lt;task&gt;]</tt> to start a timer for a specific task
 - Use <tt>:TasktimerStatus</tt> to get information about the currently active task.
 - Use <tt>:TasktimerStop</tt> to stop the timer for the task
 - With <tt>:Tasktimer [&lt;task...&gt;]</tt> you can see all the tasks you have already timed

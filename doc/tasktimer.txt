@@ -33,9 +33,10 @@ list and calculate with the task times.
 1.1 Starting and Stopping                                  *tasktimer-startstop*
 
 If you want to start the timer because you want to start a task you can type
-the following command:
+the following command. If no task provided with the command an input dialog
+appears.
 >
-    :TasktimerStart <task>
+    :TasktimerStart [<task>]
 
 If you have finished your work with the task you can stop the task again with
 the command:
