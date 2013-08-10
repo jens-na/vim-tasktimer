@@ -207,6 +207,66 @@ Example:
     endfunction
 
 ===============================================================================
+4.3 Exec functions                                          *tasktimer-execfunc*
+
+g:tasktimer_execfunc.start_pre~
+Default: none
+
+Defines a custom function which is invoked with the command
+|:TasktimerStart| before the task is actually created. If you return the value
+'1' as exit code in your custom function the task will not be created. The
+parameter of the function is the task name as a string.
+
+Example:
+>
+    let g:tasktimer_execfunc = {
+    \ 'start_pre': 'Tasktimer_Custom_Start_Pre'
+    \ }
+
+    function! Tasktimer_Custom_Start(taskname)
+      echo('Start Pre')
+      return 0
+    endfunction
+<
+
+g:tasktimer_execfunc.start_post~
+Default: none
+
+Defines a custom function which is invoked directly after the command
+|:TasktimerStart| has created the new task. The parameter of the function is 
+the task name as a string.
+ 
+
+Example:
+>
+    let g:tasktimer_execfunc = {
+    \ 'start_post': 'Tasktimer_Custom_Start_Post'
+    \ }
+    
+    function! Tasktimer_Custom_Start(taskname)
+      echo('Start Post')
+    endfunction
+<
+
+g:tasktimer_execfunc.stop_pre~
+Default: none
+
+Defines a custom function which is invoked with the command
+|:TasktimerStop| before the task is actually stopped. If you return the value
+'1' as exit code in your custom function the task will not be stopped. The
+parameter of the function is the task entry.
+
+Example:
+>
+    let g:tasktimer_execfunc = {
+    \ 'stop_pre': 'Tasktimer_Custom_Start_Pre'
+    \ }
+
+    function! Tasktimer_Custom_Start(taskname)
+      return 0
+    endfunction
+
+===============================================================================
 5 Extending Tasktimer                                      *tasktimer-extending*
 
 ===============================================================================

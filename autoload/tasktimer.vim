@@ -28,7 +28,17 @@ function! tasktimer#start(...)
     else
       let task = a:1
     endif
+    
+    " exec: pre start
+    if exists("g:tasktimer_execfunc.start_pre")
+      let FnExecPre = function(g:tasktimer_execfunc.start_pre)
+      let exitcode = FnExecPre(task)
 
+      if exitcode != 0
+        return
+      endif
+    endif
+    
     if empty(task)
       echomsg 'Tasktimer: task cannot be empty.'
       return
@@ -36,6 +46,17 @@ function! tasktimer#start(...)
 
     let start = string(localtime())
     call tasktimer#writeline(task . ';' . start . ';*PENDING*')
+
+    " exec: post start
+    if exists("g:tasktimer_execfunc.start_post")
+      let FnExecPost = function(g:tasktimer_execfunc.start_post)
+      let exitcode = FnExecPost(task)
+
+      if exitcode != 0
+        return
+      endif
+    endif
+    
     echomsg 'Tasktimer: Task with name "' . task . '" started.'
   else
     echomsg 'Tasktimer: There is a pending task. Please stop the task before.'
@@ -54,7 +75,28 @@ function! tasktimer#stop()
         let endtime = string(localtime())
         let entry.end = endtime
 
+        " exec: pre stop
+        if exists("g:tasktimer_execfunc.stop_pre")
+          let FnExecPre = function(g:tasktimer_execfunc.stop_pre)
+          let exitcode = FnExecPre(entry)
+
+          if exitcode != 0
+            return
+          endif
+        endif
+        
         call tasktimer#writefile(content)
+
+        " exec: post stop
+        if exists("g:tasktimer_execfunc.stop_post")
+          let FnExecPre = function(g:tasktimer_execfunc.stop_post)
+          let exitcode = FnExecPre(entry)
+
+          if exitcode != 0
+            return
+          endif
+        endif
+
         echomsg 'Tasktimer: Stopped task "' . entry.task . '"'
         let taskstop = 1
         break
@@ -211,7 +253,7 @@ endfunction
 function! tasktimer#writeline(line)
   if !empty(a:line)
     let filename = fnamemodify(g:tasktimer_file, ':p')
-
+    echo a:line
     execute 'redir >> ' . filename
     silent echon a:line . "\n"
     redir END
