@@ -252,10 +252,10 @@ endfunction
 " Function: Writes a line to the tasktimer file
 function! tasktimer#writeline(line)
   if !empty(a:line)
+    let fline = substitute(a:line, '^\s*\(.\{-}\)\s*$', '\1', '')
     let filename = fnamemodify(g:tasktimer_file, ':p')
-    echo a:line
-    execute 'redir >> ' . filename
-    silent echon a:line . "\n"
+    exe 'redir >> ' . filename
+    silent echon fline . "\n"
     redir END
   endif
 endfunction
