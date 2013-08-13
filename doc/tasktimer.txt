@@ -176,6 +176,7 @@ Example:
       return printf('%d,%.2d', time.hours, time.minutes)
     endfunction
 <
+
                                            *g:tasktimer_formatfunc.format_total*
 g:tasktimer_formatfunc.format_total~
 Default: tasktimer#format
@@ -209,6 +210,7 @@ Example:
 ===============================================================================
 4.3 Exec functions                                          *tasktimer-execfunc*
 
+                                                *g:tasktimer_execfunc.start_pre*
 g:tasktimer_execfunc.start_pre~
 Default: none
 
@@ -223,12 +225,13 @@ Example:
     \ 'start_pre': 'Tasktimer_Custom_Start_Pre'
     \ }
 
-    function! Tasktimer_Custom_Start(taskname)
-      echo('Start Pre')
+    function! Tasktimer_Custom_Start_Pre(taskname)
+      echo('Task ' . a:taskname . ' will be started.')
       return 0
     endfunction
 <
 
+                                               *g:tasktimer_execfunc.start_post*
 g:tasktimer_execfunc.start_post~
 Default: none
 
@@ -236,18 +239,19 @@ Defines a custom function which is invoked directly after the command
 |:TasktimerStart| has created the new task. The parameter of the function is 
 the task name as a string.
  
-
 Example:
 >
     let g:tasktimer_execfunc = {
     \ 'start_post': 'Tasktimer_Custom_Start_Post'
     \ }
     
-    function! Tasktimer_Custom_Start(taskname)
-      echo('Start Post')
+    function! Tasktimer_Custom_Start_Post(taskname)
+      echo('Task ' . a:taskname . ' will be started.')
+      return 0
     endfunction
 <
 
+                                                 *g:tasktimer_execfunc.stop_pre*
 g:tasktimer_execfunc.stop_pre~
 Default: none
 
@@ -259,12 +263,38 @@ parameter of the function is the task entry.
 Example:
 >
     let g:tasktimer_execfunc = {
-    \ 'stop_pre': 'Tasktimer_Custom_Start_Pre'
+    \ 'stop_pre': 'Tasktimer_Custom_Stop_Pre'
     \ }
 
-    function! Tasktimer_Custom_Start(taskname)
+    function! Tasktimer_Custom_Stop_Pre(entry)
+      let task = a:entry.task
+      let start = strftime('%Y-%m-%d', a:entry.start)
+      echo('Task ' . task . ' will be stopped at ' . start)
       return 0
     endfunction
+<
+
+                                                *g:tasktimer_execfunc.stop_post*
+g:tasktimer_execfunc.stop_post~
+Default: none
+
+Defines a custom function which is invoked with the command
+|:TasktimerStop| right after the task has been stopped. The parameter of the
+function is the task entry.
+
+Example:
+>
+    let g:tasktimer_execfunc = {
+    \ 'stop_post': 'Tasktimer_Custom_Stop_Post'
+    \ }
+
+    function! Tasktimer_Custom_Stop_Post(entry)
+      let task = a:entry.task
+      let start = strftime('%Y-%m-%d', a:entry.start)
+      echo('Task ' . task . ' stopped at ' . start)
+      return 0
+    endfunction
+
 
 ===============================================================================
 5 Extending Tasktimer                                      *tasktimer-extending*
