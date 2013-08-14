@@ -43,17 +43,26 @@ Usage
 - <tt>g:tasktimer_formatfunc.format</tt> defines the function how to output a time.
 - <tt>g:tasktimer_formatfunc.format_total</tt> defines the output format of the total time of a task.
 
-Example user function (decimal representation of all times):
+Example format functions
+- decimal representation of all times
+- bugtracker prefix of all tasktimer entries
+
 ```vim
 let g:tasktimer_formatfunc = {
  \ 'format' : 'Tasktimer_Custom_Format',
- \ 'format_total' : 'Tasktimer_Custom_Format'
+ \ 'format_total' : 'Tasktimer_Custom_Format',
+ \ 'format_taskname' : 'Tasktimer_Custom_Taskname'
  \ }
 
 function! Tasktimer_Custom_Format(seconds)
   let time = tasktimer#parsedecimal(a:seconds)
   return printf('%d,%.2d', time.hours, time.minutes)
 endfunction
+
+function! Tasktimer_Custom_Taskname(taskname)
+  return "Bug-" . a:taskname
+endfunction
+
 ```
 
 The default output for a time is <tt>HH mm ss</tt>.
