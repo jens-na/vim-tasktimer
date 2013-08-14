@@ -5,7 +5,6 @@ Overview
 ###Features
  - Starting/Stopping timer for tasks
  - List tasks in a seperate buffer
- - Sort tasks by date and task name
 
 ###Installation
 If you don't have a preferred way of installing Vim plugins I suggest to install 
