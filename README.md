@@ -42,6 +42,7 @@ Usage
 
 - <tt>g:tasktimer_formatfunc.format</tt> defines the function how to output a time.
 - <tt>g:tasktimer_formatfunc.format_total</tt> defines the output format of the total time of a task.
+- <tt>g:tasktimer_formatfunc.format_taskname</tt> defines the function how a task is displayed in the buffer.
 
 Example format functions
 - decimal representation of all times
