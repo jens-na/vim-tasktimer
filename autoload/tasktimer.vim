@@ -143,7 +143,7 @@ endfunction
 function! tasktimer#listtasks(...)
   let content = tasktimer#readfile()
   let content = sort(content, 'tasktimer#sorttask') 
-
+  let FnChanged = function('tasktimer#taskchanged')
   " 1 if at least one item found
   let foundtask = 0
   let tasksum = 0
@@ -166,7 +166,7 @@ function! tasktimer#listtasks(...)
 
             let tasksum = tasksum + tasktimer#calc(entry)
             call tasktimer#appendbuffer(entry)
-            if j+1 > len(content) -1 || tasktimer#isnexttask(get(content, j+1), entry)
+            if j+1 > len(content) -1 || FnChanged(get(content, j+1), entry)
               call tasktimer#appendtasksum(tasksum) 
               let tasksum = 0
             endif
@@ -185,7 +185,7 @@ function! tasktimer#listtasks(...)
         
         let tasksum = tasksum + tasktimer#calc(entry)
         call tasktimer#appendbuffer(entry)
-        if j+1 > len(content) -1 || tasktimer#isnexttask(get(content, j+1), entry)
+        if j+1 > len(content) -1 || FnChanged(get(content, j+1), entry)
             call tasktimer#appendtasksum(tasksum)
             let tasksum = 0
         endif
@@ -450,12 +450,15 @@ endfunctio
 
 " Function: Sort content by 1) date 
 function! tasktimer#sortdate(i1, i2)
-  return a:i1.start == a:i2.start ? 0 : a:i1.start < a:i2.start ? 1  : -1 
+  if a:i1.start == a:i2.start
+    return 0
+  endif
+  return a:i1.start < a:i2.start ? 1  : -1 
 endfunction
 
 " Function: Checks if day of month changed and returns 1 if true or 0 if
 " otherwise.
-function! tasktimer#isnextday(i1, i2)
+function! tasktimer#daychanged(i1, i2)
   let day1 = strftime("%d", a:i1.start)
   let day2 = strftime("%d", a:a2.start)
 
@@ -468,7 +471,7 @@ endfunction
 
 " Function: Checks if the task name has changed and return 1 if true or 0
 " otherwise.
-function! tasktimer#isnexttask(i1, i2)
+function! tasktimer#taskchanged(i1, i2)
   let tname1 = a:i1.task
   let tname2 = a:i2.task
 
