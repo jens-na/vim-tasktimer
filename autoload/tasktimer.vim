@@ -45,7 +45,8 @@ function! tasktimer#start(...)
     endif
 
     let start = string(localtime())
-    call tasktimer#writeline(task . ';' . start . ';*PENDING*')
+    let taskid = string(tasktimer#nextid(content))
+    call tasktimer#writeline(taskid . ';' . task . ';' . start . ';*PENDING*')
 
     " exec: post start
     if exists("g:tasktimer_execfunc.start_post")
@@ -113,7 +114,7 @@ endfunction
 function! tasktimer#clear()
   if filewritable(g:tasktimer_file)
     let filename = fnamemodify(g:tasktimer_file, ':p')
-    exe 'redir! > ' . filename
+    exe 'redir! >' . filename
     redir END
   endif
 endfunction
@@ -238,7 +239,7 @@ function! tasktimer#preparefile()
     return 0
   else
     let filename = fnamemodify(g:tasktimer_file, ':p')
-    exe 'redir! > ' . filename
+    exe 'redir! >' . filename
     redir END
 
     if !filewritable(g:tasktimer_file)
@@ -252,11 +253,26 @@ endfunction
 " Function: Writes a line to the tasktimer file
 function! tasktimer#writeline(line)
   if !empty(a:line)
-    let fline = substitute(a:line, '^\s*\(.\{-}\)\s*$', '\1', '')
     let filename = fnamemodify(g:tasktimer_file, ':p')
-    exe 'redir >> ' . filename
-    silent echon fline . "\n"
+    exe 'redir >>' . filename
+    silent echon a:line . "\r\n"
     redir END
+  endif
+endfunction
+
+" Function: Calculates the next task id for the tasktimer
+" Returns: The next task id based on the current content
+function! tasktimer#nextid(content)
+  let list = []
+  for entry in a:content
+    let id = entry.id
+    call add(list, entry.id)
+  endfor
+  
+  if empty(list)
+    return 0
+  else
+    return str2nr(sort(list)[-1])+1
   endif
 endfunction
 
@@ -270,10 +286,11 @@ function! tasktimer#readfile()
     let items = split(line, ';')
     let dict = {}
 
-    if len(items) == 3 
-      let dict.task = items[0]
-      let dict.start = items[1]
-      let dict.end = items[2]
+    if len(items) == 4
+      let dict.id = items[0]
+      let dict.task = items[1]
+      let dict.start = items[2]
+      let dict.end = items[3]
     endif
 
     call insert(content, dict)
@@ -289,18 +306,16 @@ function! tasktimer#writefile(content)
   endif
 
   let filename = fnamemodify(g:tasktimer_file, ':p')
-  exe 'redir! > ' . filename
+  exe 'redir! >' . filename
   redir END
 
   for entry in a:content
     let line = ''
-    if !empty(entry.task) && !empty(entry.start)
-       let line = entry.task . ';' . entry.start
-
+    if !empty(entry.id) && !empty(entry.task) && !empty(entry.start)
+       let line = entry.id . ';' . entry.task . ';' . entry.start
        if !empty(entry.end)
          let line = line . ';' . entry.end
        endif
-
        call tasktimer#writeline(line)
     endif
   endfor 
@@ -333,7 +348,6 @@ function! tasktimer#sum(task)
       let sum = sum + tasktimer#calc(entry) 
     endif
   endfor
-
   return sum
 endfunction
 
@@ -348,14 +362,11 @@ function! tasktimer#calc(entry)
 
   if !empty(a:entry.task) && !empty(a:entry.start) && !empty(a:entry.end)
     let diff = a:entry.end - a:entry.start
-
     if pending == 1
       let a:entry.end = '*PENDING*'
     endif
-
     return diff
   endif
-
   return 0
 endfunction
 
@@ -427,7 +438,6 @@ function! tasktimer#sorttask(i1, i2)
   for j in range(0, len(task1) -1)
     let cnr1 = char2nr(task1[j])
     let cnr2 = char2nr(task2[j])
-
     if cnr1 < cnr2
       return -1
     else
@@ -453,6 +463,7 @@ function! tasktimer#isnextday(i1, i2)
     return 0
   else
     return 1
+  endif
 endfunction
 
 " Function: Checks if the task name has changed and return 1 if true or 0
