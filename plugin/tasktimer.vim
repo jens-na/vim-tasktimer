@@ -2,7 +2,7 @@
 " File:        tasktimer.vim 
 " Description: time tasks with Vim 
 " Author:      Jens Nazarenus <jens@0x6a.de>
-" Licence:     GPL3
+" Licence:     Vim License
 " Website:     http://github.com/jens-na/vim-tasktimer
 " Version:     1.0
 " ============================================================================
