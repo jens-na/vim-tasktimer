@@ -86,8 +86,7 @@ If you later need to know the time of development for CR-223 you can see all the
 
 License and Copyright
 =====================
-Licensed under the GNU General Public License 3.
-
-(c) Jens Nazarenus, 2013
+Copyright (c) Jens Nazarenus. Distributed under the same terms as Vim itself. 
+See <tt>:help license.</tt>
 
 [1]: http://i.imgur.com/HxiTeBz.png
