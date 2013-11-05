@@ -47,17 +47,14 @@ function! tasktimer#start(...)
     let start = string(localtime())
     let taskid = string(tasktimer#nextid(content))
     call tasktimer#writeline(taskid . ';' . task . ';' . start . ';*PENDING*')
-
     " exec: post start
     if exists("g:tasktimer_execfunc.start_post")
       let FnExecPost = function(g:tasktimer_execfunc.start_post)
       let exitcode = FnExecPost(task)
-
       if exitcode != 0
         return
       endif
     endif
-    
     echomsg 'Tasktimer: Task with name "' . task . '" started.'
   else
     echomsg 'Tasktimer: There is a pending task. Please stop the task before.'
@@ -460,7 +457,7 @@ endfunction
 " otherwise.
 function! tasktimer#daychanged(i1, i2)
   let day1 = strftime("%d", a:i1.start)
-  let day2 = strftime("%d", a:a2.start)
+  let day2 = strftime("%d", a:i2.start)
 
   if day2 == day1
     return 0

@@ -68,7 +68,7 @@ function! s:Tasktimer_Compl(ArgLead, CmdLine, CursorPos)
 
   for line in readfile(filename)
     let items = split(line, ';')
-    let task = items[0]
+    let task = items[1]
 
     if index(tasknames, task) == -1
       call insert(tasknames, task)
